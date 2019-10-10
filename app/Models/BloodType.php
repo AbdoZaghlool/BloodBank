@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BloodType extends Model 
+class BloodType extends Model
 {
 
     protected $table = 'blood_types';
@@ -13,17 +13,17 @@ class BloodType extends Model
 
     public function clients()
     {
-        return $this->hasMany('Client');
+        return $this->hasMany('App\Models\Client');
     }
 
     public function donationRequests()
     {
-        return $this->hasMany('DonationRequest');
+        return $this->hasMany('App\Models\DonationRequest');
     }
 
-    public function clients()
+    public function client()
     {
-        return $this->belongsToMany('Client');
+        return $this->belongsToMany('App\Models\Client');
     }
 
 }

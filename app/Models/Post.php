@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model 
+class Post extends Model
 {
 
     protected $table = 'posts';
@@ -13,12 +13,12 @@ class Post extends Model
 
     public function category()
     {
-        return $this->belongsTo('Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
     public function clients()
     {
-        return $this->belongsToMany('Client');
+        return $this->belongsToMany('App\Models\Client');
     }
 
 }
