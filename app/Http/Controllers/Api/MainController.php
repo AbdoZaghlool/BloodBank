@@ -57,14 +57,14 @@ class MainController extends Controller
 
     public function donations()
     {
-        $donation = DonationRequest::all();
-        return responseJson(1, 'success', $bloodTypes);
+        $donations = DonationRequest::all();
+        return responseJson(1, 'success', $donations);
     }
 
 
-    public function donation()
+    public function donation($id)
     {
-        $bloodTypes = BloodType::all();
-        return responseJson(1, 'success', $bloodTypes);
+        $donation = DonationRequest::all();
+        return responseJson(1, 'success', $donation);
     }
 }
