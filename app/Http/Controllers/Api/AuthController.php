@@ -16,7 +16,7 @@ class AuthController extends Controller
         $validator = validator()->make($request->all(), [
             'name' => 'required',
             'city_id' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|unique:clients',
             'last_donation_date' => 'required',
             'blood_type_id' => 'required',
             'password' => 'required|confirmed',
@@ -35,7 +35,6 @@ class AuthController extends Controller
             'client' => $client
         ]);
         return redirect('/profile');
-
     }
 
     public function login(Request $request)
@@ -55,7 +54,7 @@ class AuthController extends Controller
                     'api_token' => $client->api_token,
                     'client' => $client
                 ]);
-                return redirect('/profile');
+                return redirect('api/v1/profile');
             } else {
                 return responseJson(0, 'password does not match!');
             }
@@ -65,25 +64,52 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-        dd($client=Client::where('api_token','like',$request->api_token));
-        return view('home')->with('client'->$client);
+        $client=$request->user();
+        return view('home')/**->with('client'->$client) */;
     }
 
     public function resetPassword(Request $request)
     {
         $code = str_random(6);
-        $user = Client::where('phone', $request->phone);
+        $user = Client::where('phone', $request->phone)->first();
         if ($user) {
             $update = $user->update(['pin_code' => $code]);
             if ($update) {
 
-                Mail::to("abdomessi2011@yahoo.com")
-                    ->bcc("abdoabdo20192020@gmail.com")
+                Mail::to($user->email)
+                    ->bcc('abdoabdo20192020@gmail.com')
                     ->send(new ResetPassword($code));
             }
-            return ($user);
+            return responseJson(1, "check your mail!");
         } else {
-            return "not registered!";
+            return responseJson(0, "not registered!");
+        }
+    }
+
+    public function newPassword(Request $request)
+    {
+        $validator = validator()->make($request->all(), [
+            'phone' => 'required|size:11|digits:11',
+            'pin_code' => 'required|size:6',
+            'password' => 'required|confirmed'
+        ]);
+        if ($validator->fails()) {
+            return responseJson(0, $validator->errors()->first(), $validator->errors());
+        }
+
+        $user = Client::where('phone', $request->phone)->first();
+
+        if ($user) {
+            $var = Client::where('pin_code', $request->pin_code)->first();
+            if ($var) {
+                $npass = Hash::make($request->password);
+                $var->update(['password' => $npass]);
+                return responseJson(1, 'your password updated');
+            } else {
+                return responseJson(0, 'your pin_code doesn\'t match');
+            }
+        } else {
+            return responseJson(0, 'the phone is not correct');
         }
     }
 }

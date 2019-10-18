@@ -47,5 +47,9 @@ class Client extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Notification')->withPivot('is_read');
     }
+    public function tokens()
+    {
+        return $this->hasMany('App\Models\Token');
+    }
 
 }

@@ -9,8 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BloodType;
 use App\Models\Category;
 use App\Models\Contact;
-use App\Models\DonationRequest;
 use App\Models\Setting;
+use App\Models\Client;
 
 class MainController extends Controller
 {
@@ -42,6 +42,43 @@ class MainController extends Controller
         $contacts = Contact::all();
         return responseJson(1, 'success', $contacts);
     }
+    public function notificationSettings(Request $request)
+    {
+        $blood_types = $request->user()->bloodTypes()->get();
+        $governorates = $request->user()->governorates()->get();
+        return responseJson(
+            1,
+            'success',
+            [
+                'blood_type' => $blood_types,
+                'governorates' => $governorates
+            ]
+        );
+    }
+
+    public function notificationSettingsUpdate(Request $request)
+    {
+
+        $rules = [
+            'governorates' => 'required|array',
+            'blood_types'  => 'required|array'
+        ];
+
+        $validation = validator()->make($request->all(), $rules);
+        if ($validation->fails()) {
+            return responseJson(0, $validation->errors()->first(), $validation->errors());
+        }
+
+        $request->user()->bloodTypes()->sync($request->blood_types);
+        $request->user()->governorates()->sync($request->governorates);
+
+        $data = [
+
+            'governorates' => $request->user()->governorates()->pluck('governorates.id')->toArray(),
+            'blood_types' => $request->user()->bloodTypes()->pluck('blood_types.id')->toArray(),
+        ];
+        return responseJson(1, 'success', $data);
+    }
 
     public function categories()
     {
@@ -53,18 +90,5 @@ class MainController extends Controller
     {
         $bloodTypes = BloodType::all();
         return responseJson(1, 'success', $bloodTypes);
-    }
-
-    public function donations()
-    {
-        $donations = DonationRequest::all();
-        return responseJson(1, 'success', $donations);
-    }
-
-
-    public function donation($id)
-    {
-        $donation = DonationRequest::all();
-        return responseJson(1, 'success', $donation);
     }
 }
