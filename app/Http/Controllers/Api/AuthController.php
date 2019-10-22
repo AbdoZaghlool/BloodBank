@@ -65,7 +65,7 @@ class AuthController extends Controller
     public function profile(Request $request)
     {
         $client=$request->user();
-        return view('home')/**->with('client'->$client) */;
+        return responseJson(1, 'success',$client);
     }
 
     public function resetPassword(Request $request)
@@ -79,8 +79,9 @@ class AuthController extends Controller
                 Mail::to($user->email)
                     ->bcc('abdoabdo20192020@gmail.com')
                     ->send(new ResetPassword($code));
+
+                return responseJson(1, "check your mail!", $update);
             }
-            return responseJson(1, "check your mail!");
         } else {
             return responseJson(0, "not registered!");
         }

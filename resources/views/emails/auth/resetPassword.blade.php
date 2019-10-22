@@ -1,10 +1,7 @@
 @component('mail::message')
 # Introduction
 
-welcome dear your reset code is {{$code}}
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
+welcome, your reset code is {{$code}}
 
 Thanks,<br>
 {{ config('app.name') }}

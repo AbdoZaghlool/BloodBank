@@ -88,7 +88,7 @@ class MainController extends Controller
 
     public function bloodTypes()
     {
-        $bloodTypes = BloodType::all();
+        $bloodTypes = BloodType::all()->pluck('name')->toArray();
         return responseJson(1, 'success', $bloodTypes);
     }
 }
