@@ -74,21 +74,22 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{url('post')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Posts</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{url('category')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categories</p>
                 </a>
               </li>
             </ul>
         </li>
-            <li class="nav nav-pills nav-sidebar flex-column"><a href=""><i class="fa fa-book"></i> <span>Settings</span></a></li>
+            {{-- <li class="nav nav-pills nav-sidebar flex-column"><a href=""><i class="fa fa-book"></i> <span>Settings</span></a></li> --}}
     <li class="nav nav-pills nav-sidebar flex-column"><a href="{{url('governorate')}}"><i class="fa fa-book"></i> <span>Governorates</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column"><a href="{{url('city')}}"><i class="fa fa-book"></i> <span>Cities</span></a></li>
 
         </ul>
         <ul>
