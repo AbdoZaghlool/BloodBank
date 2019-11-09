@@ -22,7 +22,7 @@ Governorates
 
       <div class="card-body">
 
-        @include('errors')
+        @include('layouts.partials.errors')
 
             {!! Form::model($model, ['action'=>['GovernorateController@update' ,$model->id],'method'=>'PUT']) !!}
 

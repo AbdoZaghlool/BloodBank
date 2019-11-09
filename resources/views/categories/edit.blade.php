@@ -22,7 +22,7 @@ Categories
 
       <div class="card-body">
 
-        @include('errors')
+        @include('layouts.partials.errors')
 
             {!! Form::model($model, ['action'=>['CategoryController@update' ,$model->id],'method'=>'PUT']) !!}
 

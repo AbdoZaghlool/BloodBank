@@ -22,7 +22,7 @@ Governorates
 
       <div class="card-body">
           <br>
-          @include('errors')
+          @include('layouts.partials.errors')
           <br>
         <a class="btn btn-primary" href="{{url('governorate/create')}}"><i class="fa fa-plus"></i> New Governorate</a>
 

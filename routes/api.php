@@ -23,10 +23,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::get('contacts', 'MainController@contacts');
+    Route::post('contacts', 'MainController@addContacts');
     Route::get('settings', 'MainController@settings');
     Route::get('categories', 'MainController@categories');
     Route::get('blood-types', 'MainController@bloodTypes');
-    Route::post('reset-password', 'AuthController@resetPassword');
+    Route::post('reset-password.blade.php', 'AuthController@resetPassword');
     Route::post('new-password', 'AuthController@newPassword');
 
 
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
 
         Route::get('notification-settings', 'MainController@notificationSettings');
         Route::post('notification-settings', 'MainController@notificationSettingsUpdate');
+        Route::post('register-token', 'AuthController@registerToken');
         Route::get('posts', 'PostController@index');
         Route::post('posts/{post}/favourite', 'postController@favouritePost');
         Route::post('posts/{post}/unfavourite', 'postController@unfavouritePost');

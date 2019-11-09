@@ -24,7 +24,7 @@ Posts
 
       <div class="card-body">
 
-        @include('errors')
+        @include('layouts.partials.errors')
             {!! Form::model($model, ['action'=>'PostController@store']) !!}
 
             <div class="form-group">

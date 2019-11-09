@@ -34,8 +34,9 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
@@ -79,7 +80,7 @@ class PostController extends Controller
         $rules = [
             'title' => 'required',
             'content' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
         ];
         $validator = $this->validate($request, $rules);
         if($validator){

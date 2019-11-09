@@ -37,11 +37,31 @@ class MainController extends Controller
         return responseJson(1, 'success', $settings);
     }
 
+
+    public function addContacts(Request $request)
+    {
+        $rules=[
+            'name'=>['required', 'string', 'max:20'],
+            'email'=>['required', 'string', 'email', 'max:30'],
+            'phone'=>['required','max:15'],
+            'message'=>['required','string','max:200']
+        ];
+
+        $validation = validator()->make($request->all(),$rules);
+        if($validation){
+            Contact::create($request->all());
+            return responseJson(1,'your message in way to the admin');
+        }else{
+            return responseJson(0, $validation->errors()->first(), $validation->errors());
+        }
+    }
+
     public function contacts()
     {
         $contacts = Contact::all();
         return responseJson(1, 'success', $contacts);
     }
+
     public function notificationSettings(Request $request)
     {
         $blood_types = $request->user()->bloodTypes()->get();

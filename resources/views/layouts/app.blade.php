@@ -34,13 +34,36 @@
         <a href="/" class="nav-link">Home</a>
       </li>
     </ul>
+      <li class="dropdown nav nav-tabs-right">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              @if(Auth::user()) {{ Auth::user()->name }} @endif
+                  <span class="caret"></span>
+          </a>
+
+          <ul class="dropdown-menu" role="menu">
+
+              <li>
+                  <a style=" position: absolute; right: 10px;"
+                      href="{{ route('logout') }}"
+                     onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                      Logout
+                  </a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      {{ csrf_field() }}
+                  </form>
+
+              </li>
+          </ul>
+      </li>
  </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="#" class="brand-link">
     <img src="{{asset('adminlte/img/AdminLTELogo.png')}}"
            alt="Blood Bank Logo"
            class="brand-image img-circle elevation-3"
@@ -56,7 +79,7 @@
         <img src="{{asset('adminlte/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-        <a href="#" class="d-block">{{auth()->user()->name}}</a>
+        <a href="#" class="d-block">@if(Auth::user()) {{ Auth::user()->name }} @endif</a>
         </div>
       </div>
 
@@ -75,21 +98,28 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{url('post')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-comment-alt nav-icon"></i>
                   <p>Posts</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{url('category')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-list-alt nav-icon"></i>
                   <p>Categories</p>
                 </a>
               </li>
             </ul>
         </li>
             {{-- <li class="nav nav-pills nav-sidebar flex-column"><a href=""><i class="fa fa-book"></i> <span>Settings</span></a></li> --}}
-    <li class="nav nav-pills nav-sidebar flex-column"><a href="{{url('governorate')}}"><i class="fa fa-book"></i> <span>Governorates</span></a></li>
-    <li class="nav nav-pills nav-sidebar flex-column"><a href="{{url('city')}}"><i class="fa fa-book"></i> <span>Cities</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1 "><a href="{{url('governorate')}}"><i class="fa fa-globe-americas"></i> <span>Governorates</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1 "><a href="{{url('city')}}"><i class="fa fa-city"></i> <span>Cities</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('client')}}"><i class="fa fa-user"></i> <span>Clients</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('donation')}}"><i class="fa fa-hand-holding-heart"></i> <span>Donation Rrequests</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('contact')}}"><i class="fa fa-envelope"></i> <span>Contacts</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('setting')}}"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('role')}}"><i class="fa fa-meh-rolling-eyes"></i> <span>Roles</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('user')}}"><i class="fa fa-user-tie"></i> <span>Users</span></a></li>
+    <li class="nav nav-pills nav-sidebar flex-column my-1 py-1"><a href="{{url('/password/reset')}}"><i class="fa fa-user-cog"></i> <span>Change User Password</span></a></li>
 
         </ul>
         <ul>
@@ -132,7 +162,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.0.0-rc.5
     </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+    <strong>Copyright &copy; 2019 <a href="">Company name</a>.</strong> All rights
     reserved.
   </footer>
 

@@ -68,10 +68,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+            'table' => 'users',
         ],
         'clients' => [
             'driver' => 'eloquent',
             'model' => App\Models\Client::class,
+            'table' => 'clients',
         ],
 
         // 'users' => [

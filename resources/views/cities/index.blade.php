@@ -22,7 +22,7 @@ Cities
 
       <div class="card-body">
           <br>
-          @include('errors')
+          @include('layouts.partials.errors')
           <br>
         <a class="btn btn-primary" href="{{url('city/create')}}"><i class="fa fa-plus"></i> New City</a>
 
@@ -33,6 +33,7 @@ Cities
                         <tr>
                             <th class="text-center">#</th>
                             <th class="text-center">Name</th>
+                            <th class="text-center">Governorate</th>
                             <th class="text-center">Edit</th>
                             <th class="text-center">Delete</th>
                         </tr>
@@ -42,6 +43,7 @@ Cities
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td class="text-center">{{$record->name}}</td>
+                            <td class="text-center">{{$record->governorate->name}}</td>
                             <td class="text-center"><a class="btn btn-secondary" href="{{url(route('city.edit',$record->id))}}">Edit</a></td>
                             <td class="text-center">
                                 {!! Form::open(['action'=>['CityController@destroy' ,$record->id],'method'=>'delete']) !!}

@@ -22,7 +22,7 @@ Posts
 
       <div class="card-body">
           <br>
-          @include('errors')
+          @include('layouts.partials.errors')
           <br>
         <a class="btn btn-primary" href="{{url('post/create')}}"><i class="fa fa-plus"></i> New Post</a>
 

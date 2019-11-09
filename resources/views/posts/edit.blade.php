@@ -22,8 +22,8 @@ Categories
 
       <div class="card-body">
 
-        @include('errors')
-        {!! Form::model($model, ['action'=>'PostController@store']) !!}
+        @include('layouts.partials.errors')
+        {!! Form::model($model, ['action'=>['PostController@update', $model->id], 'method'=>'put']) !!}
 
         <div class="form-group">
             <label for="title">Title</label>
@@ -37,7 +37,7 @@ Categories
             <label for="category_id">Category</label>
             <select class="form-control" name="category_id">
                 @forelse ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" @if($category->id == $model->category_id) echo selected  @endif >{{ $category->name }}</option>
                 @empty
                     no categories yet !
                 @endforelse

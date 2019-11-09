@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Governorate;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -25,23 +26,31 @@ class CityController extends Controller
      */
     public function create()
     {
-        return view('cities.create');
+        $governorates=Governorate::all();
+        return view('cities.create',compact('governorates'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
 
+        // dd($request);
         $rules = [
-            'name' => 'required'
+            'name' => 'required',
+            'governorate_id' => 'required'
         ];
         $validator = $this->validate($request, $rules);
-        City::create($request->all());
+        // City::create($request->all());
+        $city=new City;
+        $city->name = $request['name'];
+        $city->governorate_id = $request['governorate_id'];
+        $city->save();
         return redirect('/city');
     }
     /**
@@ -53,12 +62,12 @@ class CityController extends Controller
     public function edit($id)
     {
         $model=City::findOrFail($id);
-        return view ('cities.edit' ,compact('model'));
+        $governorates=Governorate::all();
+        return view ('cities.edit' ,compact('model' ,'governorates'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response

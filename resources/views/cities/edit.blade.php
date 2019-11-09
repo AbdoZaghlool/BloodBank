@@ -22,13 +22,24 @@ Cities
 
       <div class="card-body">
 
-        @include('errors')
+        @include('layouts.partials.errors')
 
             {!! Form::model($model, ['action'=>['CityController@update' ,$model->id],'method'=>'PUT']) !!}
 
             <div class="form-group">
                 <label for="name">Name</label>
                 {!! Form::text('name', null, ['class'=>'form-control']) !!}
+            </div>
+
+            <div class="form-group">
+                <label for="governorate">Governorate</label>
+                <select class="form-control" name="governorate_id">
+                    @forelse ($governorates as $governorate)
+                        <option value="{{ $governorate->id }}"  @if($governorate->id == $model->governorate_id) echo selected  @endif  >{{ $governorate->name }}</option>
+                    @empty
+                        no categories yet !
+                    @endforelse
+                </select>
             </div>
 
             <div class="form-group">

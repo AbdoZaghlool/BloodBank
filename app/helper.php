@@ -12,13 +12,6 @@ function responseJson($status, $message, $data = null)
 }
 
 
-
-
-
-
-
-
-
 /**
  * firebase cloud messaging
  */

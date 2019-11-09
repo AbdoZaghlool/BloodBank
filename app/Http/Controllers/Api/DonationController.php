@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DonationRequest;
 use App\Models\Notification;
+use App\Models\Token;
+use PhpParser\Parser\Tokens;
 
 class DonationController extends Controller
 {
@@ -62,8 +64,19 @@ class DonationController extends Controller
                 'content' => 'new donation request matchs your preference settings with blood type please take a look '
             ]);
 
+            // attach ids into notification table.
             $notification->clients()->attach($clientsIds);
+            $tokens=Token::where('client_id',$clientsIds)->where('token','!=',null)->pluck('token')->toArray();
+            if($tokens){
+                $title=$notification->title;
+                $body=$notification->content;
+                $data=[
+                    'donation_request_id' => $donationRequest->id
+                ];
+                notifyByFirebase($title,$body,$tokens,$data);
+            }
         }
+        return responseJson(1, 'the donation request has been registerd successfully',$donationRequest);
     }
 
     /**

@@ -34,7 +34,6 @@ class AuthController extends Controller
             'api_token' => $client->api_token,
             'client' => $client
         ]);
-        return redirect('/profile');
     }
 
     public function login(Request $request)
@@ -49,12 +48,13 @@ class AuthController extends Controller
 
         $client = Client::where('phone', $request->phone)->first();
         if ($client) {
-            if (Hash::check($request->password, $client->password)) {
+            if ($client->status == 0) {
+                return responseJson(1, 'faild to load your account for now you can contact the admin for more details!');
+            } elseif (Hash::check($request->password, $client->password)) {
                 return responseJson(1, 'client logedin successfully!', [
                     'api_token' => $client->api_token,
                     'client' => $client
                 ]);
-                return redirect('api/v1/profile');
             } else {
                 return responseJson(0, 'password does not match!');
             }
@@ -64,16 +64,17 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-        $client=$request->user();
-        return responseJson(1, 'success',$client);
+        $client = $request->user();
+        if ($client->status) {
+            return responseJson(1, 'success', $client);
+        } else { }
     }
-
     public function resetPassword(Request $request)
     {
         $code = str_random(6);
         $user = Client::where('phone', $request->phone)->first();
-        if ($user) {
-            $update = $user->update(['pin_code' => $code]);
+        if ($user) {//update(['pin_code' => $code]);
+            $update = $user->pin_code= $code; $user->save();
             if ($update) {
 
                 Mail::to($user->email)
@@ -105,12 +106,20 @@ class AuthController extends Controller
             if ($var) {
                 $npass = Hash::make($request->password);
                 $var->update(['password' => $npass]);
-                return responseJson(1, 'your password updated');
+                return responseJson(1, 'your password updated',$var->password);
             } else {
                 return responseJson(0, 'your pin_code doesn\'t match');
             }
         } else {
             return responseJson(0, 'the phone is not correct');
         }
+    }
+
+    public function registerToken(Request $request)
+    {
+        $token = $request['token'];
+        $user = $request->user();
+        $user->tokens()->create($request->all());
+        return responseJson(1,'your token has been registered successfully',$user->tokens);
     }
 }
